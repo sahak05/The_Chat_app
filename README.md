@@ -11,6 +11,9 @@ npm install --save react-router socket.io-client react-scroll-to-bottom react-em
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
-  use to put this to run the server continually 
+  use to put this to run the server continually.  
+
+#### Socket  
+Socket.IO is a library that enables real-time, bidirectional and event-based communication between the browser and the server.
 
 
