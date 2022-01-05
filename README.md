@@ -1,9 +1,36 @@
 # The_Chat_app  
 ## full Realtime Chat Application using React on the front end, with NodeJS + Socket.io web socket library on the back end.   
 
-
-
-
+![image](https://user-images.githubusercontent.com/61946862/148294994-216fbb4f-a0d2-4afe-ba9a-92243b87880d.png)
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 #### importants packages   
 npm install --save react-router socket.io-client react-scroll-to-bottom react-emoji query-string   
 
