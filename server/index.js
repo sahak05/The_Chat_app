@@ -3,7 +3,7 @@
 const express = require('express')
 const socketio = require('socket.io')
 const http = require('http')
-//const cors = require ('cors')
+const cors = require ('cors')
 
 const {addUser, removeUser, getUser, getUserInRoom} = require('./user')
 
@@ -25,6 +25,9 @@ const io = socketio(server, {
     }
 })//une instance de socketio
 
+app.use(router)
+app.use(cors())
+
 
 io.on('connection', (socket) =>{ //connection and disconnection
 
@@ -39,22 +42,30 @@ io.on('connection', (socket) =>{ //connection and disconnection
 
         socket.join(user.room)
 
+        io.to(user.room).emit('roomData', {room:user.room, user:getUserInRoom(user.room)})
+
         callback();//if there is an error
     })
 
 
     socket.on('sendMessage', (message, callback) => {
         const user = getUser(socket.id)
+
         io.to(user?.room).emit('message', { user: user?.name, text: message })
+        io.to(user.room).emit('roomData', {room:user.room, user:getUserInRoom(user.room)})
+        
         callback()
     })
 
     socket.on('disconnect', ()=>{
-        console.log('User had left!!')
+        const user = removeUser(socket.id)
+        if(user){
+            io.to(user?.room).emit('message', {user:'admin', text:`${user.name}, has left.`})
+        }
     })
 
 })
 
-app.use(router)
+
 
 server.listen(PORT, ()=>console.log(`Server has started on port ${PORT}`))

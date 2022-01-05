@@ -8,11 +8,11 @@ const InfoBar = ({room}) => {
     return (
         <div className='infoBar'>
             <div className='leftInnerContainer'>
-                <img className='onlineIcon' src={onelineIcon} alt='online image'/>
+                <img className='onlineIcon' src={onelineIcon} alt='online '/>
                 <h3>{room}</h3>
             </div>
             <div className='rightInnerContainer'>
-                <a href='/'><img src={closeIcon} alt='close image'/></a>
+                <a href='/'><img src={closeIcon} alt='close '/></a>
             </div>
         </div>
     )

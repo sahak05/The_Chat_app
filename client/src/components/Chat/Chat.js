@@ -5,6 +5,7 @@ import './Chat.css'
 import InfoBar from '../InfoBar/InfoBar'
 import Input from '../Input/Input'
 import Messages from '../Messages/Messages'
+import TextContainer from '../TextContainer/TextContainer'
 
 let socket;//we gonna pass data inside
 
@@ -13,8 +14,9 @@ const Chat = ({location}) => {
     const [name, setName] = useState('')
     const [room, setRoom] = useState('')
     const [message, setMessage] = useState('')
+    const [users, setUsers] = useState('')
     const [messages, setMessages] = useState([])
-    const ENDPOINT = 'localhost:5000'
+    const ENDPOINT = 'https://react-chat-app-v.herokuapp.com/'
 
     useEffect(() =>{
 
@@ -45,6 +47,10 @@ const Chat = ({location}) => {
         socket.on('message', (message)=>{
             setMessages([...messages, message])
         })
+
+        socket.on("roomData", ({ users }) => {
+            setUsers(users);
+          })
     }, [messages])
 
     //function for sending messages cause is the user who is sending 
@@ -57,18 +63,19 @@ const Chat = ({location}) => {
     }
 
 
-    console.log(message, messages)
+
 
     return (
         <div className='outerContainer'>
             <div className='container'>
 
                 <InfoBar room={room}/>
-                
-                <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
 
-                <Messages messages={messages}/>
+                <Messages messages={messages} name={name}/>
+
+                <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
             </div>
+            <TextContainer users={users}/>
         </div>
     )
 }
