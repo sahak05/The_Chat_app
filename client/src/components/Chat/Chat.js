@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import queryString from 'query-string'
 import io from 'socket.io-client' 
-
+import './Chat.css'
+import InfoBar from '../InfoBar/InfoBar'
+import Input from '../Input/Input'
+import Messages from '../Messages/Messages'
 
 let socket;//we gonna pass data inside
 
@@ -17,12 +20,13 @@ const Chat = ({location}) => {
 
         const {name, room} = queryString.parse(location.search)
 
-        socket = io(ENDPOINT, { transports : ['websocket', 'polling', 'flashsocket'] }); //end point 
+        socket = io(ENDPOINT, {transports: ["websocket", "polling", "flashsocket"]}); //end point 
         /*More information
         about this error handling
         here https://stackoverflow.com/questions/44628363/socket-io-access-control-allow-origin-error 
         */
         setName(name)
+
         setRoom(room)
         
         socket.emit('join', {name,room}, ()=>{
@@ -34,7 +38,7 @@ const Chat = ({location}) => {
 
             socket.off()//off the instance of the socket
         }
-    }, [ENDPOINT, location.search]) //speify when the value in the array change
+    }, [ENDPOINT, location.search]) //specify when the value in the array change
 
 
     useEffect(()=>{
@@ -56,14 +60,14 @@ const Chat = ({location}) => {
     console.log(message, messages)
 
     return (
-        <div className='outerCOntainer'>
+        <div className='outerContainer'>
             <div className='container'>
-                <input 
-                value={message} 
-                onChange={(event)=> setMessage(event.target.value)}
-                onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null} 
-                />
 
+                <InfoBar room={room}/>
+                
+                <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
+
+                <Messages messages={messages}/>
             </div>
         </div>
     )

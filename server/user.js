@@ -33,10 +33,12 @@ const removeUser =(id)=>{ //remove user
     }
 }
 
-const getuser = (id)=>{ //see if user
-    users.find((user)=>user.id === id)
+const getUser = (id)=>{ //see if user
+    return users.find((user)=>user.id === id)
+    //console.log(users)
+    //console.log(users.find((user)=>user.id === id))
 }
 
-const getUserInRoom = (room)=>{users.filter((user)=>user.room === room)} //array of the user in that room
+const getUserInRoom = (room)=>{ return users.filter((user)=>user.room === room)} //array of the user in that room
 
-module.exports = {addUser, removeUser, getuser, getUserInRoom} //export them
+module.exports = {addUser, removeUser, getUser, getUserInRoom} //export them

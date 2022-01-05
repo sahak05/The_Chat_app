@@ -3,8 +3,9 @@
 const express = require('express')
 const socketio = require('socket.io')
 const http = require('http')
+//const cors = require ('cors')
 
-const {addUser, removeUser, getuser, getUserInRoom} = require('./user')
+const {addUser, removeUser, getUser, getUserInRoom} = require('./user')
 
 //require() permet de loire les fichier passer en argument et les executes
 
@@ -16,7 +17,13 @@ const router = require('./router')
 
 const app = express()
 const server = http.createServer(app)
-const io = socketio(server)//une instance de socketio
+const io = socketio(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+        credentials: true
+    }
+})//une instance de socketio
 
 
 io.on('connection', (socket) =>{ //connection and disconnection
@@ -37,10 +44,8 @@ io.on('connection', (socket) =>{ //connection and disconnection
 
 
     socket.on('sendMessage', (message, callback) => {
-        const user = getuser(socket.id)
-    
-        io.to(user.room).emit('message', { user: user.name, text: message })
-    
+        const user = getUser(socket.id)
+        io.to(user?.room).emit('message', { user: user?.name, text: message })
         callback()
     })
 
